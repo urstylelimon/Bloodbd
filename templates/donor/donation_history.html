@@ -1,0 +1,129 @@
+{% extends 'donor/donorbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa; /* Light gray background */
+        }
+
+        .container {
+            margin-top: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff; /* White background */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h4.text-center {
+            color: #db3434; /* Blue color */
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        thead {
+            background-color: #db3434; /* Blue color */
+            color: white;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5; /* Light gray on hover */
+        }
+
+        .label {
+            padding: 8px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .label-warning {
+            background-color: #f39c12; /* Orange color */
+            color: #fff;
+        }
+
+        .label-success {
+            background-color: #27ae60; /* Green color */
+            color: #fff;
+        }
+
+        .label-info {
+            background-color: #db3434; /* Blue color */
+            color: #fff;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .fadeIn {
+            animation: fadeIn 1s ease-in-out;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container fadeIn">
+        <h4 class="text-center">My Donation History</h4>
+        <table class="table table-light table-hover table-bordered table-striped">
+            <thead class="bg-info">
+                <tr>
+                    <th scope="col">Donor Age</th>
+                    <th scope="col">Disease (if any)</th>
+                    <th scope="col">Blood Group</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in donations %}
+                <tr>
+                    <td>{{t.age}}</td>
+                    <td>{{t.disease}}</td>
+                    <td>{{t.bloodgroup}}</td>
+                    <td>{{t.unit}}</td>
+                    <td>{{t.date}}</td>
+                    {% if t.status == 'Approved' %}
+                    <td><span class="label label-warning"> Approved</span></td>
+                    {% elif t.status == 'Rejected' %}
+                    <td><span class="label label-success">Rejected</span></td>
+                    {% else %}
+                    <td><span class="label label-info">Pending</span></td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
+
+{% endblock content %}

@@ -1,0 +1,219 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation Dashboard</title>
+    <!-- Include Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+    
+        .container {
+            margin-top: 20px;
+        }
+    
+        .card {
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+            overflow: hidden;
+            border-radius: 10px;
+            background-color: #fff;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+    
+        .card:hover {
+            transform: scale(1.05);
+        }
+    
+        .card-body {
+            text-align: center;
+            padding: 20px;
+            flex: 1;
+        }
+    
+        .blood {
+            color: #dc3545;
+            font-size: 24px;
+        }
+    
+        .fa-tint, .fa-users, .fa-spinner, .fa-check-circle, .fa-tint.xyz {
+            font-size: 20px;
+            color: #ff4444;
+        }
+    
+        .row hr {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #dee2e6;
+        }
+    
+        @media (max-width: 576px) {
+            .col-sm-3 {
+                width: 100%;
+            }
+        }
+
+        /* Styling for the bar chart */
+        #bloodChart {
+            width: 100%;
+            height: 300px;
+            border-radius: 10px;
+        }
+
+        /* Adjust styling for the Blood Data card */
+        #bloodDataCard {
+            height: 100%;
+        }
+
+        /* Styling for the blood group list */
+        #bloodGroupList {
+            text-align: left;
+            margin-top: 10px;
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Existing card layout -->
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <canvas id="bloodChart"></canvas>
+                    </div>
+                </div>
+            </div>
+                            
+            <!-- New card for blood data -->
+            <div class="col-sm-6">
+                <div class="card bg-light" id="bloodDataCard">
+                    <div class="card-body">
+                        <div class="blood">
+                            Blood Data
+                        </div>
+                        
+                        <ul id="bloodGroupList">
+                            <li><i class="fas fa-tint"></i>A+ : {{A1.unit}}</li>
+                            <li><i class="fas fa-tint"></i>B+: {{B1.unit}}</li>
+                            <li><i class="fas fa-tint"></i>O+ : {{O1.unit}}</li>
+                            <li><i class="fas fa-tint"></i>AB+: {{AB1.unit}}</li>
+                            <li><i class="fas fa-tint"></i>A-: {{A2.unit}}</li>
+                            <li><i class="fas fa-tint"></i>B-: {{B2.unit}}</li>
+                            <li><i class="fas fa-tint"></i>O-: {{O2.unit}}</li>
+                            <li><i class="fas fa-tint"></i>AB-: {{AB2.unit}}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="blood">
+                            <i class="fas fa-users"></i>
+                        </div><br>
+                        <div>
+                            Total Donors <br>
+                            {{totaldonors}}
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="blood">
+                            <i class="fas fa-spinner"></i>
+                        </div><br>
+                        <div>
+                            Total Requests <br>
+                            {{totalrequest}}
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="blood">
+                            <i class="far fa-check-circle"></i>
+                        </div><br>
+                        <div>
+                            Approved Requests <br>
+                            {{totalapprovedrequest}}
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card bg-light">
+                    <div class="card-body">
+                        <div class="blood">
+                            <i class="fas fa-tint xyz"></i>
+                        </div><br>
+                        <div>
+                            Total Blood Unit (in ml) <br>
+                            {{totalbloodunit}}
+                        </div>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize chart data with default values
+        var chartData = [
+            {{A1.unit}}, {{B1.unit}}, {{O1.unit}}, {{AB1.unit}},
+            {{A2.unit}}, {{B2.unit}}, {{O2.unit}}, {{AB2.unit}}
+        ];
+        
+        var bloodChartConfig = {
+            type: 'bar',
+            data: {
+                labels: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+                datasets: [{
+                    label: 'Blood Units',
+                    backgroundColor: ['#dc3545', '#007bff', '#28a745', '#ffc107', '#dc3545', '#007bff', '#28a745', '#ffc107'],
+                    borderColor: '#fff',
+                    borderWidth: 1,
+                    data: chartData,
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        var bloodChartCanvas = document.getElementById('bloodChart').getContext('2d');
+        var bloodChart = new Chart(bloodChartCanvas, bloodChartConfig);
+    </script>
+</body>
+</html>
+
+{% endblock content %}

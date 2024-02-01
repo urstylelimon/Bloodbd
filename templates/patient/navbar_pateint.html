@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            background-color: #f7371e;
+            padding: 15px;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px;
+            margin: 0 10px;
+            font-size: 18px;
+            transition: background-color 0.1s ease, color 0.1s ease;
+            border-radius: 8px;
+        }
+
+        nav a:hover {
+            background-color: #bb2828;
+            color: #ffffff;
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        nav a.logout {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .logout i {
+            margin-right: 5px;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        nav a.active {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="/">Blood Bank Management System</a></li>
+            <li><a href="/">Home</a></li>
+            <li><a href="/patient/make-request">Make Request</a></li>
+            <li><a href="/patient/my-request">Request History</a></li>
+            <li class="logout"><a href="/logout"><i class="fas fa-sign-out-alt"></i>Logout &nbsp;</a></li>
+        </ul>
+    </nav>
+</body>
+</html>

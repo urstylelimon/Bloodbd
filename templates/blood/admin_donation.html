@@ -1,0 +1,139 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        h4.text-center {
+            color: #dc3545; /* Red color */
+        }
+
+        table.table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .table thead th {
+            background-color: #dc3545; /* Red color */
+            color: #ffffff;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8d7da; /* Light red color on hover */
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+        }
+
+        .btn-primary,
+        .btn-danger {
+            background-color: #dc3545; /* Red color */
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover,
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker red color on hover */
+        }
+
+        .btn a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        /* Status Labels */
+        .label {
+            color: white;
+            padding: 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .success {background-color: #4CAF50;} /* Green */
+        .info {background-color: #2196F3;} /* Blue */
+        .warning {background-color: #ff9800;} /* Orange */
+        .danger {background-color: #f44336;} /* Red */
+        .other {background-color: #e7e7e7; color: black;} /* Gray */
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h4 class="text-center">BLOOD DONATION DETAILS</h4>
+        <table class="table table-light table-hover table-bordered table-striped">
+            <thead class="bg-info">
+                <tr>
+                    <th scope="col">Donor Name</th>
+                    <th scope="col">Disease</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Blood Group</th>
+                    <th scope="col">Unit</th>
+                    <th scope="col">Request Date</th>
+                    <th scope="col">Status</th>
+                    <th class="text-right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in donations %}
+                <tr>
+                    <td> {{t.donor}}</td>
+                    <td> {{t.disease}}</td>
+                    <td> {{t.age}}</td>
+                    <td>{{t.bloodgroup}}</td>
+                    <td>{{t.unit}}</td>
+                    <td>{{t.date}}</td>
+                    <td>
+                        {% if t.status == 'Pending' %}
+                            <span class="label warning">{{t.status}}</span>
+                        {% elif t.status == 'Approved' %}
+                            <span class="label success">{{t.status}}</span>
+                        {% else %}
+                            <span class="label danger">{{t.status}}</span>
+                        {% endif %}
+                    </td>
+                    {% if t.status == 'Pending' %}
+                    <td class="text-right">
+                        <button class="btn btn-primary badge-pill" style="width: 100px;"><a style="text-decoration: none;color: white;" href="{% url 'approve-donation' t.id  %}">APPROVE</a> </button>
+                        <button class="btn btn-danger badge-pill" style="width: 80px;"><a style="text-decoration: none;color: white;" href="{% url 'reject-donation' t.id  %}">REJECT</a> </button>
+                    </td>
+                    {% elif  t.status == 'Approved' %}
+                    <td><span class="label warning">{{t.unit}} Unit Added To Stock</span></td>
+
+                    {% else %}
+                    <td><span class="label danger">0 Unit Added To Stock</span></td> 
+                    {% endif %}
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+
+</html>
+
+
+{% endblock content %}

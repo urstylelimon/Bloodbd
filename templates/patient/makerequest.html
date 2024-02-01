@@ -1,0 +1,226 @@
+{% extends 'patient/patientbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Request Form</title>
+    <style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa; /* Light gray background */
+        }
+
+        .page-wrapper {
+            background: #fff; /* White background */
+            padding: 20px;
+        }
+
+
+        .card-5 {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+
+        .card-heading {
+            background: #e74c3c;
+            padding: 20px;
+            color: #fff;
+        }
+
+        /* Card body styling */
+        .card-body {
+            padding: 20px;
+        }
+
+        /* Form row styling */
+        .form-row {
+            margin-bottom: 20px;
+        }
+
+        /* Input field styling */
+        .input--style-5 {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input--style-5:focus {
+            border-color: #e74c3c; /* Red color on focus */
+        }
+
+        /* Select dropdown styling */
+        .rs-select2 {
+            width: 100%;
+        }
+
+        /* Button styling */
+        .btn--radius-2 {
+            background-color: #e74c3c; /* Red color */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn--radius-2:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+
+
+/* Add this CSS for Blood Group section */
+.form-row .blood-group {
+    display: flex;
+    align-items: center;
+}
+
+.form-row .blood-group .name {
+    width: 120px;
+    padding: 10px;
+    background: #f30606; /* Red color */
+    color: #fff;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.form-row .blood-group .value {
+    flex: 1;
+}
+
+.form-row .blood-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+.form-row .blood-group select:focus {
+    border-color: #e74c3c; /* Red color on focus */
+}
+
+        /* Animation effects */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Apply animation to relevant elements */
+        .page-wrapper,
+        .card-5,
+        .form-row,
+        .input--style-5,
+        .rs-select2,
+        .btn--radius-2 {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        
+    </style>
+</head>
+<body>
+
+    <div class="page-wrapper bg-gra-03 p-t-45 p-b-50">
+        <div class="wrapper wrapper--w790">
+            <div style="margin-left: 70px;" class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">MAKE BLOOD REQUEST</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+    
+                        <div class="form-row">
+                            <div class="name">Patient Name</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    {% render_field request_form.patient_name|attr:'required:true'  class="input--style-5"  %}
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-row">
+                            <div class="name">Patient Age</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    {% render_field request_form.patient_age|attr:'required:true'  class="input--style-5"  %}
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div class="form-row">
+                            <div class="name">Reason</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    {% render_field request_form.reason|attr:'required:true'  class="input--style-5"  %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="blood-group">
+                                <div class="name">Blood Group</div>
+                                <div class="value">
+                                    <div class="input-group">
+                                        <div class="rs-select2 js-select-simple select--no-search">
+                                            <select name="bloodgroup">
+                                                <option disabled="disabled" selected="selected">Choose option</option>
+                                                <option>O+</option>
+                                                <option>O-</option>
+                                                <option>A+</option>
+                                                <option>A-</option>
+                                                <option>B+</option>
+                                                <option>B-</option>
+                                                <option>AB+</option>
+                                                <option>AB-</option>
+                                            </select>
+                                            <div class="select-dropdown"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="name">Unit</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    {% render_field request_form.unit|attr:'required:true'  class="input--style-5"  %}
+                                </div>
+                            </div>
+                        </div>
+    
+                        <div>
+                            <button class="btn btn--radius-2 btn-danger" type="submit">REQUEST</button>
+                        </div>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+{% endblock content %}
+

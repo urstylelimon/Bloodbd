@@ -1,0 +1,129 @@
+{% extends 'donor/donorbase.html' %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Dashboard</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        .card {
+            border: none;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .blood {
+            font-size: 36px;
+            color: #dc3545;
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .card-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .card-subtitle {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        .xyz {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row">
+
+        <div class="col-sm-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="fas fa-sync-alt xyz"></i>
+                    </div>
+                    <div class="card-title">
+                        Request Made
+                    </div>
+                    <div class="card-subtitle">
+                        {{requestmade}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="fas fa-sync xyz"></i>
+                    </div>
+                    <div class="card-title">
+                        Pending Request
+                    </div>
+                    <div class="card-subtitle">
+                        {{requestpending}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="fas fa-check-circle xyz"></i>
+                    </div>
+                    <div class="card-title">
+                        Approved Request
+                    </div>
+                    <div class="card-subtitle">
+                        {{requestapproved}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-3">
+            <div class="card bg-light">
+                <div class="card-body">
+                    <div class="blood">
+                        <i class="fas fa-times-circle xyz"></i>
+                    </div>
+                    <div class="card-title">
+                        Rejected Request
+                    </div>
+                    <div class="card-subtitle">
+                        {{requestrejected}}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+{% endblock content %}

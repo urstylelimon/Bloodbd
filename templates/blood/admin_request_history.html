@@ -1,0 +1,162 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        h4.text-center {
+            color: #dc3545; /* Red color */
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        table.table {
+            margin-top: 20px;
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table thead th {
+            background-color: #dc3545; /* Red color */
+            color: #ffffff;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8d7da; /* Light red color on hover */
+        }
+
+        .table tbody td {
+            padding: 12px;
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .label {
+            padding: 8px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 0;
+            font-size: 14px;
+            font-weight: 700;
+            line-height: 1.42857143;
+            text-align: center;
+            white-space: nowrap;
+            vertical-align: baseline;
+        }
+
+        .success {
+            background-color: #e41010; /* Green */
+            color: #fff;
+        }
+
+        .info {
+            background-color: #2196F3; /* Blue */
+            color: #fff;
+        }
+
+        .warning {
+            background-color: #ff9800; /* Orange */
+            color: #fff;
+        }
+
+        .danger {
+            background-color: #f44336; /* Red */
+            color: #fff;
+        }
+
+        .other {
+            background-color: #e7e7e7;
+            color: #000;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .animated {
+            animation: fadeIn 1s ease-out;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container animated">
+        <h4 class="text-center">Blood Request History</h4>
+        {% if message %}
+        <h5 class="text-center" style="color: red;">{{message}}</h5>
+        {% endif %}
+        <table class="table table-light table-hover table-bordered table-striped">
+            <thead class="bg-info">
+                <tr>
+                    <th scope="col">Patient Name</th>
+                    <th scope="col">Age</th>
+                    <th scope="col">Reason</th>
+                    <th scope="col">Blood Group</th>
+                    <th scope="col">Unit (in ml)</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Stock Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in requests %}
+                <tr>
+                    <td>{{t.patient_name}}</td>
+                    <td>{{t.patient_age}}</td>
+                    <td>{{t.reason}}</td>
+                    <td>{{t.bloodgroup}}</td>
+                    <td>{{t.unit}}</td>
+                    <td>{{t.date}}</td>
+                    <td>
+                        {% if t.status == 'Approved' %}
+                        <span class="label warning"> Approved</span>
+                        {% else %}
+                        <span class="label success">Rejected</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if t.status == 'Approved' %}
+                        <span class="label warning">{{t.unit}} Unit Deducted From Stock</span>
+                        {% else %}
+                        <span class="label success">0 Unit Deducted From Stock</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+
+</html>
+
+
+{% endblock content %}

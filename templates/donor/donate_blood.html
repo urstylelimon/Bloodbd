@@ -1,0 +1,205 @@
+{% extends 'donor/donorbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DONATE BLOOD</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f8f9fa; /* Light gray background */
+        }
+
+        .page-wrapper {
+            background: #fff; /* White background */
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .card-5 {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 600px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card-heading {
+            background: #e74c3c; /* Red color */
+            padding: 20px;
+            color: #fff;
+            text-align: center;
+        }
+
+        .card-heading h2.title {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .card-body {
+            padding: 20px;
+        }
+
+        .form-row {
+            margin: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .value {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .input-group {
+            width: 100%;
+        }
+
+        .rs-select2 {
+            width: 100%;
+            position: relative;
+        }
+
+        .select-dropdown {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            pointer-events: none;
+            border-radius: 0 0 8px 8px;
+        }
+
+        .input--style-5,
+        .rs-select2 select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .input--style-5:focus,
+        .rs-select2 select:focus {
+            border-color: #e74c3c; /* Red color on focus */
+            box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+        }
+
+        .btn--radius-2 {
+            background-color: #e74c3c; /* Red color */
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .btn--radius-2:hover {
+            background-color: #c0392b; /* Darker red on hover */
+        }
+
+        .card-5:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-row:hover {
+            transform: translateY(-5px);
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="page-wrapper">
+        <div class="wrapper wrapper--w790">
+            <div class="card card-5">
+                <div class="card-heading">
+                    <h2 class="title">DONATE BLOOD</h2>
+                </div>
+                <div class="card-body">
+                    <form method="POST" autocomplete="off" enctype="multipart/form-data">
+                        {% csrf_token %}
+
+                        <div class="form-row" id="blood_form">
+                            <div class="name">Blood Group</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    <div class="rs-select2 js-select-simple select--no-search">
+                                        <select name="bloodgroup">
+                                            <option disabled="disabled" selected="selected">Choose option</option>
+                                            <option>O+</option>
+                                            <option>O-</option>
+                                            <option>A+</option>
+                                            <option>A-</option>
+                                            <option>B+</option>
+                                            <option>B-</option>
+                                            <option>AB+</option>
+                                            <option>AB-</option>
+                                        </select>
+                                        <div class="select-dropdown"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="name">Unit</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    {% render_field donation_form.unit|attr:'required:true' class="input--style-5" %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="name">Disease (if any)</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    {% render_field donation_form.disease|attr:'required:true' class="input--style-5" %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="name">Age</div>
+                            <div class="value">
+                                <div class="input-group">
+                                    {% render_field donation_form.age|attr:'required:true' class="input--style-5" %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button class="btn btn--radius-2 btn-danger" type="submit">DONATE</button>
+                        </div>
+                    </form>
+                    <br>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+
+{% endblock content %}

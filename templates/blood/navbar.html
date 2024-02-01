@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        nav {
+            background-color: #f7371e; /* Red background color */
+            padding: 15px; /* Increase padding */
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 30px; /* Increase padding */
+            margin: 0 10px; /* Increase margin */
+            font-size: 18px; /* Increase font size */
+            transition: background-color 0.1s ease, color 0.1s ease;
+        }
+
+        nav a:hover {
+            background-color: #bb2828;; /* Full red on hover */
+            color: #ffffff; /* White text on hover */
+        }
+
+        nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        nav ul li {
+            display: inline;
+        }
+
+        /* Optional: Add a border radius to make it look more stylish */
+        nav a, nav a:hover, nav a.active {
+            border-radius: 8px; /* Increase border radius */
+        }
+
+        /* Add animation to the active link */
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        nav a.active {
+            animation: pulse 1s infinite;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div>
+            <ul>
+                <li>
+                    <a href="/"> Blood Bank Management</a>
+                </li>
+                <li>
+                    <a href="/"> Home</a>
+                </li>
+                <li>
+                    <a href="/patient/patientlogin">For User</a>
+                </li>
+                <li>
+                    <a href="/donor/donorlogin">For Donor</a>
+                </li>
+                <li>
+                    <a href="/adminlogin" class="active">Admin</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</body>
+</html>

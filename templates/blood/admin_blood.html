@@ -1,0 +1,198 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation System</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .container {
+            margin: 20px auto;
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-body {
+            text-align: center;
+        }
+
+        .blood {
+            color: #dc3545;
+        }
+
+        h2 {
+            margin-bottom: 0;
+        }
+
+        .row {
+            margin-bottom: 20px;
+        }
+
+        .xyz {
+            text-align: center;
+        }
+
+        form {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        select,
+        input {
+            width: 150px;
+        }
+
+        button {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        hr {
+            border-color: #dc3545;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        .card.animated {
+            animation: fadeIn 1s ease-out;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <br>
+    <h3 class="text-center" style="color: #dc3545;">Update Blood Unit</h3><br>
+ 
+
+    <!-- Chart -->
+    <canvas id="bloodChart" width="250" height="100"></canvas>
+
+    <script>
+      // Initialize chart data with default values
+      var chartData = [
+          {{A1.unit}}, {{B1.unit}}, {{O1.unit}}, {{AB1.unit}},
+          {{A2.unit}}, {{B2.unit}}, {{O2.unit}}, {{AB2.unit}}
+      ];
+  
+      // Function to update chart data
+      function updateChartData() {
+          var selectedBloodGroup = document.querySelector('select[name="bloodgroup"]').value;
+          var unitInput = document.querySelector('input[name="unit"]').value;
+  
+          switch (selectedBloodGroup) {
+              case 'A+':
+                  chartData[0] = parseInt(unitInput);
+                  break;
+              case 'B+':
+                  chartData[1] = parseInt(unitInput);
+                  break;
+              case 'O+':
+                  chartData[2] = parseInt(unitInput);
+                  break;
+              case 'AB+':
+                  chartData[3] = parseInt(unitInput);
+                  break;
+              case 'A-':
+                  chartData[4] = parseInt(unitInput);
+                  break;
+              case 'B-':
+                  chartData[5] = parseInt(unitInput);
+                  break;
+              case 'O-':
+                  chartData[6] = parseInt(unitInput);
+                  break;
+              case 'AB-':
+                  chartData[7] = parseInt(unitInput);
+                  break;
+          }
+  
+          // Update chart with new data
+          bloodChart.data.datasets[0].data = chartData;
+          bloodChart.update();
+  
+          // Prevent form submission (we don't want the page to reload)
+          return false;
+      }
+  
+      // Chart configuration
+      var bloodChartConfig = {
+          type: 'bar',
+          data: {
+              labels: ['A+', 'B+', 'O+', 'AB+', 'A-', 'B-', 'O-', 'AB-'],
+              datasets: [{
+                  label: 'Blood Units',
+                  backgroundColor: ['#dc3545', '#007bff', '#28a745', '#ffc107', '#dc3545', '#007bff', '#28a745', '#ffc107'],
+                  borderColor: '#fff',
+                  borderWidth: 1,
+                  data: chartData,
+              }]
+          },
+          options: {
+              scales: {
+                  y: {
+                      beginAtZero: true
+                  }
+              }
+          }
+      };
+  
+      // Create and render the chart
+      var bloodChartCanvas = document.getElementById('bloodChart').getContext('2d');
+      var bloodChart = new Chart(bloodChartCanvas, bloodChartConfig);
+  </script>
+  
+
+<div class="xyz">
+  <form class="form-inline" method="POST" onsubmit="updateChartData()">
+      {% csrf_token %}
+      <div class="form-group mx-sm-3 mb-6">
+          <select name="bloodgroup" class="form-control">
+              <option disabled="disabled" selected="selected">Choose Blood Group</option>
+              <option>A+</option>
+              <option>B+</option>
+              <option>O+</option>
+              <option>AB+</option>
+              <option>A-</option>
+              <option>B-</option>
+              <option>O-</option>
+              <option>AB-</option>
+          </select>
+      </div>
+      <div class="form-group mx-sm-3 mb-6">
+          <input type="number" class="form-control" name="unit" placeholder="Unit">
+      </div>
+      <button type="submit" class="btn btn-danger mb-2">Update</button>
+  </form>
+</div>
+
+</div>
+
+</body>
+</html>
+
+
+{% endblock content %}

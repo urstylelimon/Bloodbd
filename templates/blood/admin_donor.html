@@ -1,0 +1,113 @@
+{% extends 'blood/adminbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donor Details</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: #ffffff;
+        }
+
+        h4.text-center {
+            color: #dc3545; /* Red color */
+        }
+
+        table.table {
+            margin-top: 20px;
+            width: 100%;
+        }
+
+        .table thead th {
+            background-color: #dc3545; /* Red color */
+            color: #ffffff;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f8d7da; /* Light red color on hover */
+        }
+
+        .table tbody td {
+            vertical-align: middle;
+        }
+
+        .table img {
+            border-radius: 50%;
+        }
+
+        .btn-primary,
+        .btn-danger {
+            background-color: #dc3545; /* Red color */
+            border: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-primary:hover,
+        .btn-danger:hover {
+            background-color: #c82333; /* Darker red color on hover */
+        }
+
+        .btn a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <h4 class="text-center">DONOR DETAILS</h4>
+        <table class="table table-light table-hover table-bordered table-striped">
+            <thead class="bg-info">
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Profile</th>
+                    <th scope="col">Blood Group</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Mobile</th>
+                    <th class="text-right">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for t in donors %}
+                <tr>
+                    <td> {{t.get_name}}</td>
+                    <td> <img src="{% static t.profile_pic.url %}" alt="Profile Pic" height="40px" width="40px" /></td>
+                    <td>{{t.bloodgroup}}</td>
+                    <td>{{t.address}}</td>
+                    <td>{{t.mobile}}</td>
+
+                    <td class="text-right">
+                        <button class="btn btn-primary badge-pill" style="width: 80px;"><a style="text-decoration: none;color: white;" href="{% url 'update-donor' t.id  %}">EDIT</a> </button>
+                        <button class="btn btn-danger badge-pill" style="width: 80px;"><a style="text-decoration: none;color: white;" href="{% url 'delete-donor' t.id  %}">DELETE</a> </button>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+    </div>
+
+</body>
+
+</html>
+
+
+{% endblock content %}

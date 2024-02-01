@@ -1,0 +1,115 @@
+{% extends 'patient/patientbase.html' %}
+{% block content %}
+{% load widget_tweaks %}
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Blood Request</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            margin-top: 30px;
+        }
+
+        h4 {
+            color: #dc3545; /* Red color */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #dc3545; /* Red border */
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #dc3545; /* Red background */
+            color: #fff;
+        }
+
+        tbody tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .label {
+            padding: 5px 10px;
+            border-radius: 3px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .label.warning {
+            background-color: #dc3545; /* Red background */
+            color: #fff;
+        }
+
+        .label.success {
+            background-color: #dc3545; /* Red background */
+            color: #fff;
+        }
+
+        .label.info {
+            background-color: #dc3545; /* Red background */
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h4 class="text-center">My Blood Request</h4>
+    <table class="table table-light table-hover table-bordered table-striped">
+        <thead class="bg-danger"> <!-- Use red background for thead -->
+            <tr>
+                <th scope="col">Patient Name</th>
+                <th scope="col">Patient Age</th>
+                <th scope="col">Reason</th>
+                <th scope="col">Blood Group</th>
+                <th scope="col">Unit</th>
+                <th scope="col">Date</th>
+                <th scope="col">Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for t in blood_request %}
+            <tr>
+                <td> {{t.patient_name}}</td>
+                <td>{{t.patient_age}}</td>
+                <td>{{t.reason}}</td>
+                <td>{{t.bloodgroup}}</td>
+                <td>{{t.unit}}</td>
+                <td>{{t.date}}</td>
+                {% if t.status == 'Approved' %}
+                <td><span class="label warning"> Approved</span></td>
+                {% elif t.status == 'Rejected' %}
+                <td><span class="label success">Rejected</span></td>
+                {% else %}
+                <td><span style="color: white;margin-left: 0px;" class="label info">Pending</span></td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
+
+
+{% endblock content %}
